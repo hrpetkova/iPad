@@ -1,0 +1,60 @@
+h1 {
+    font-weight: normal;
+    font-style: italic;
+    font-size: 40px;
+    background-color: rgba(0,0,0,0.1);
+    padding: 0.2em;
+    color: red;
+}
+
+h1:hover {
+    text-shadow: 2px 2px #ffffff;
+}
+
+h2 {
+    background-color: rgb(60, 79, 147);
+    margin: 5px;
+    padding: 5px 10px 10px;
+    color: red;
+}
+
+.list {
+    border: 2px dotted #ff4500;
+    margin-bottom: 20px;
+    max-width: 80%;
+}
+
+li {
+    background-color: rgb(212, 171, 24);
+    width: 800px;
+    height: 25px;
+    margin: 5px;
+    padding: 2px 5px;
+}
+
+p {
+    line-height: 1.5em;
+}
+
+code {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+a {
+    color: #0073ff;
+}
+
+a:hover {
+    color: #ff6666;
+}
+
+span.suggestion {
+    font-style: italic;
+}
+
+cite {
+    border: 1px solid rgba(0,0,0,0.1); /* transparent black */
+    border-radius: 5px;
+    padding: 3px 7px;
+}
