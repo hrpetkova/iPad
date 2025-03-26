@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Important Places in Pamplona</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        h2 { color: #333; }
+        #map { height: 450px; width: 90%; margin: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
+        .info-section { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 20px; }
+        .info-box {
+            width: 180px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            background: white;
+        }
+        .info-box img { width: 160px; height: 120px; border-radius: 8px; object-fit: cover; }
+        .legend {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+            line-height: 18px;
+        }
+        .legend img { width: 25px; height: 25px; margin-right: 5px; vertical-align: middle; }
+    </style>
+</head>
+<body>
+
+    <h2>Important Places in Pamplona</h2>
+
+    <!-- Sección con imágenes reales y descripciones -->
+    <div class="info-section">
+        <div class="info-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Farmacia_Madrid.jpg" alt="Pharmacy">
+            <p><b>Pharmacy</b></p>
+            <p>Buy medicine and health products.</p>
+        </div>
+        <div class="info-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Shopping_Mall.jpg" alt="Shopping Mall">
+            <p><b>Shopping Mall</b></p>
+            <p>A big place with many shops.</p>
+        </div>
+        <div class="info-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Post_Office.jpg" alt="Post Office">
+            <p><b>Post Office</b></p>
+            <p>Send and receive letters and packages.</p>
+        </div>
+        <div class="info-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Bank_building.jpg" alt="Bank">
+            <p><b>Bank</b></p>
+            <p>Save money and withdraw cash.</p>
+        </div>
+        <div class="info-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/de/Supermarket_inside.jpg" alt="Supermarket">
+            <p><b>Supermarket</b></p>
+            <p>Buy food and household items.</p>
+        </div>
+        <div class="info-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/dc/Cinema_hall.jpg" alt="Cinema">
+            <p><b>Cinema</b></p>
+            <p>Watch movies on a big screen.</p>
+        </div>
+        <div class="info-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Park_view.jpg" alt="Park">
+            <p><b>Park</b></p>
+            <p>A place to walk and play.</p>
+        </div>
+    </div>
+
+    <!-- Mapa interactivo -->
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([42.8125, -1.6458], 14);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        var places = [
+            { name: "Pharmacy", type: "pharmacy", lat: 42.813, lon: -1.651 },
+            { name: "Shopping Mall", type: "mall", lat: 42.799, lon: -1.626 },
+            { name: "Post Office", type: "post_office", lat: 42.815, lon: -1.648 },
+            { name: "Bank", type: "bank", lat: 42.812, lon: -1.644 },
+            { name: "Supermarket", type: "supermarket", lat: 42.810, lon: -1.642 },
+            { name: "Cinema", type: "cinema", lat: 42.816, lon: -1.656 },
+            { name: "Park", type: "park", lat: 42.817, lon: -1.643 }
+        ];
+
+        var icons = {
+            pharmacy: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/128/4229/4229957.png', iconSize: [35, 35] }),
+            mall: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/128/2331/2331716.png', iconSize: [35, 35] }),
+            post_office: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/128/686/686261.png', iconSize: [35, 35] }),
+            bank: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/128/2224/2224667.png', iconSize: [35, 35] }),
+            supermarket: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/128/2642/2642469.png', iconSize: [35, 35] }),
+            cinema: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/128/3097/3097081.png', iconSize: [35, 35] }),
+            park: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/128/4832/4832951.png', iconSize: [35, 35] })
+        };
+
+        places.forEach(function(place) {
+            L.marker([place.lat, place.lon], { icon: icons[place.type] })
+                .addTo(map)
+                .bindPopup("<b>" + place.name + "</b>");
+        });
+
+        var legend = L.control({ position: "bottomright" });
+        legend.onAdd = function(map) {
+            var div = L.DomUtil.create("div", "legend");
+            div.innerHTML += "<b>Legend</b><br>";
+            places.forEach(p => {
+                div.innerHTML += `<img src="${icons[p.type].options.iconUrl}"> ${p.name}<br>`;
+            });
+            return div;
+        };
+        legend.addTo(map);
+    </script>
+</body>
+</html>
