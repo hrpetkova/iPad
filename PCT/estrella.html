@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Random Stars</title>
+  <style>
+    canvas {
+      background-color: #000022;
+      display: block;
+      margin: 40px auto;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+<canvas id="starCanvas" width="600" height="600"></canvas>
+
+<script>
+const canvas = document.getElementById("starCanvas");
+const ctx = canvas.getContext("2d");
+
+function drawStar(spikes, center, size, color) {
+  let rot = Math.PI / 2 * 3;
+  let x = center.x;
+  let y = center.y;
+  let step = Math.PI / spikes;
+
+  ctx.beginPath();
+  ctx.moveTo(x, y - size);
+  for (let i = 0; i < spikes; i++) {
+    x = center.x + Math.cos(rot) * size;
+    y = center.y + Math.sin(rot) * size;
+    ctx.lineTo(x, y);
+    rot += step;
+
+    x = center.x + Math.cos(rot) * (size / 2);
+    y = center.y + Math.sin(rot) * (size / 2);
+    ctx.lineTo(x, y);
+    rot += step;
+  }
+  ctx.lineTo(center.x, center.y - size);
+  ctx.closePath();
+  ctx.fillStyle = color;
+  ctx.fill();
+}
+
+// Dibuja múltiples estrellas aleatorias
+for (let i = 0; i < 20; i++) {
+  const spikes = Math.floor(Math.random() * 4) + 5;
+  const center = {
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height
+  };
+  const size = Math.random() * 30 + 20;
+  const color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+  drawStar(spikes, center, size, color);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Clock with Numbers</title>
+  <style>
+    canvas {
+      background-color: #f8f8f8;
+      display: block;
+      margin: 40px auto;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+<canvas id="clockCanvas" width="400" height="400"></canvas>
+
+<script>
+const canvas = document.getElementById("clockCanvas");
+const ctx = canvas.getContext("2d");
+const radius = canvas.width / 2;
+ctx.translate(radius, radius);
+
+function drawClock() {
+  ctx.clearRect(-radius, -radius, canvas.width, canvas.height);
+  drawFace(ctx, radius);
+  drawTicks(ctx, radius);
+  drawNumbers(ctx, radius);
+  drawTime(ctx, radius);
+  requestAnimationFrame(drawClock);
+}
+
+function drawFace(ctx, radius) {
+  ctx.beginPath();
+  ctx.arc(0, 0, radius * 0.95, 0, 2 * Math.PI);
+  ctx.fillStyle = "#fff";
+  ctx.fill();
+  ctx.strokeStyle = "#333";
+  ctx.lineWidth = radius * 0.02;
+  ctx.stroke();
+}
+
+function drawTicks(ctx, radius) {
+  for (let i = 0; i < 60; i++) {
+    const angle = (i * Math.PI * 2) / 60;
+    const length = (i % 5 === 0) ? radius * 0.1 : radius * 0.05;
+    ctx.beginPath();
+    ctx.moveTo(
+      Math.cos(angle) * (radius * 0.9),
+      Math.sin(angle) * (radius * 0.9)
+    );
+    ctx.lineTo(
+      Math.cos(angle) * (radius * 0.9 - length),
+      Math.sin(angle) * (radius * 0.9 - length)
+    );
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = (i % 5 === 0) ? 3 : 1;
+    ctx.stroke();
+  }
+}
+
+function drawNumbers(ctx, radius) {
+  ctx.font = radius * 0.15 + "px Arial";
+  ctx.textBaseline = "middle";
+  ctx.textAlign = "center";
+  for (let num = 1; num <= 12; num++) {
+    const angle = (num * Math.PI) / 6;
+    const x = Math.cos(angle - Math.PI / 2) * radius * 0.75;
+    const y = Math.sin(angle - Math.PI / 2) * radius * 0.75;
+    ctx.fillStyle = "#000";
+    ctx.fillText(num.toString(), x, y);
+  }
+}
+
+function drawTime(ctx, radius) {
+  const now = new Date();
+  let hour = now.getHours() % 12;
+  let minute = now.getMinutes();
+  let second = now.getSeconds();
+  let ms = now.getMilliseconds();
+
+  
+  const hourAngle = (hour + minute / 60) * Math.PI / 6;
+  drawHand(ctx, hourAngle, radius * 0.5, 6);
+
+  
+  const minuteAngle = (minute + second / 60) * Math.PI / 30;
+  drawHand(ctx, minuteAngle, radius * 0.75, 4);
+
+  
+  const secondAngle = (second + ms / 1000) * Math.PI / 30;
+  drawHand(ctx, secondAngle, radius * 0.85, 2, "#f00");
+}
+
+function drawHand(ctx, angle, length, width, color = "#000") {
+  ctx.beginPath();
+  ctx.lineWidth = width;
+  ctx.lineCap = "round";
+  ctx.strokeStyle = color;
+  ctx.moveTo(0, 0);
+  ctx.lineTo(Math.cos(angle - Math.PI / 2) * length, Math.sin(angle - Math.PI / 2) * length);
+  ctx.stroke();
+}
+
+drawClock(); 
+</script>
+</body>
+</html>
