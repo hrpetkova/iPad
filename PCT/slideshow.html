@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Slide Show</title>
+  <style>
+    body {
+      text-align: center;
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+    }
+    img {
+      width: 400px;
+      height: 300px;
+      border: 5px solid #ccc;
+      margin-top: 20px;
+    }
+    .controls {
+      margin-top: 20px;
+    }
+    button {
+      margin: 0 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    p {
+      margin-top: 10px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Simple Slide Show</h1>
+<img id="slideshowImage" src="" alt="Slideshow Image">
+<p id="caption"></p>
+
+<div class="controls">
+  <button onclick="prevSlide()">⏮️ Anterior</button>
+  <button onclick="togglePlayPause()" id="playPauseButton">⏸️ Pausar</button>
+  <button onclick="nextSlide()">⏭️ Siguiente</button>
+</div>
+
+<script>
+const slides = [
+  { src: "https://picsum.photos/id/237/400/300", caption: "Foto 1: Perro curioso" },
+  { src: "https://picsum.photos/id/238/400/300", caption: "Foto 2: Montañas nevadas" },
+  { src: "https://picsum.photos/id/239/400/300", caption: "Foto 3: Lago al atardecer" },
+  { src: "https://picsum.photos/id/240/400/300", caption: "Foto 4: Camino entre árboles" }
+];
+
+let currentSlide = 0;
+let playing = true;
+let slideInterval;
+
+function showSlide(index) {
+  const img = document.getElementById("slideshowImage");
+  const caption = document.getElementById("caption");
+  img.src = slides[index].src;
+  caption.textContent = slides[index].caption;
+}
+
+function nextSlide() {
+  currentSlide = (currentSlide + 1) % slides.length;
+  showSlide(currentSlide);
+}
+
+function prevSlide() {
+  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+  showSlide(currentSlide);
+}
+
+function togglePlayPause() {
+  const button = document.getElementById("playPauseButton");
+  if (playing) {
+    clearInterval(slideInterval);
+    button.textContent = "▶️ Reanudar";
+  } else {
+    slideInterval = setInterval(nextSlide, 3000);
+    button.textContent = "⏸️ Pausar";
+  }
+  playing = !playing;
+}
+
+// Inicializar slideshow
+showSlide(currentSlide);
+slideInterval = setInterval(nextSlide, 3000);
+</script>
+
+</body>
+</html>
