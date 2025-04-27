@@ -29,7 +29,7 @@
       background-color: #000022;
       border: 1px solid #ccc;
       margin: 40px auto;
-      display: block; /* muy importante para centrado */
+      display: block; 
     }
   </style>
 </head>
@@ -55,9 +55,8 @@ const ctx2 = canvas2.getContext("2d");
 let stars = [];
 let time = 0;
 let animationRunning = false;
-let autoStarTimer = null; // ⏱️ variable para regenerar estrellas cada 10s
+let autoStarTimer = null; 
 
-// Funciones para Task 2 (estrellas estáticas)
 function drawStarStatic(spikes, center, size, color) {
   let rot = Math.PI / 2 * 3;
   let x = center.x;
@@ -82,7 +81,7 @@ function drawStarStatic(spikes, center, size, color) {
   ctx1.fill();
 }
 
-// Funciones para Task 2_1 (estrellas animadas)
+
 function drawStarAnimated(star) {
   const { spikes, center, size, baseHue, phase } = star;
   const rot = Math.PI / 2 * 3;
@@ -153,7 +152,7 @@ function animate() {
   requestAnimationFrame(animate);
 }
 
-// Cambiar entre pestañas
+
 function openTab(tabName) {
   canvas1.style.display = "none";
   canvas2.style.display = "none";
@@ -161,7 +160,7 @@ function openTab(tabName) {
   document.getElementById("task2_1Btn").classList.remove("active");
 
   if (autoStarTimer) {
-    clearInterval(autoStarTimer); // cancelamos timer si cambiamos de pestaña
+    clearInterval(autoStarTimer); 
     autoStarTimer = null;
   }
 
@@ -172,14 +171,14 @@ function openTab(tabName) {
   } else if (tabName === "task2_1") {
     canvas2.style.display = "block";
     generateStars();
-    autoStarTimer = setInterval(generateStars, 10000); // generar nuevas cada 10s
+    autoStarTimer = setInterval(generateStars, 5000); 
     animationRunning = true;
     animate();
   }
   document.getElementById(tabName + "Btn").classList.add("active");
 }
 
-// Inicializar en Task 2
+
 openTab('task2');
 </script>
 
